@@ -6,22 +6,33 @@ function App() {
   // マスごとの状態の管理をする
   const [boards, setBoard] = useState(["1","2","3","4","5","6","7","8","9"]);
   // ターンの管理をする
-  const [nowTurn, setnowTurn] = useState(1);
+  const [nowTurn, setnowTurn] = useState(0);
 
   const handleClickMasu = (index) => {
+    if (nowTurn === 9) {
+      alert("The game is already finished! Prease press 'Go to game start' button.");
+      return;
+    } else {
+      setnowTurn(turn => turn + 1);
+    }
     setBoard(prev => {
       const spreadBoard = [...prev];
-      spreadBoard[index] = nowTurn % 2 === 1 ? "X" : "O";
+      if (spreadBoard[index] !== "X" && spreadBoard[index] !== "O"){
+        spreadBoard[index] = nowTurn % 2 === 1 ? "X" : "O";
+        return spreadBoard;
+      }
       return spreadBoard;
     });
-      setnowTurn(turn => turn + 1);
   };
+
+  const nextPlayer = nowTurn % 2 === 1 ? "X" : "O";
 
   return (
     <div className="App">
       <div className="left-contents">
-        <a>Next player: </a>
+        <a>Next player: {nextPlayer}</a>
         <p>now turn count is {nowTurn}</p>
+        {}
         <div className="game-ground">
           {/* ここで繰り返し処理 */}
             {boards.map((board, index) => (
