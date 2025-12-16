@@ -41,7 +41,7 @@
 }
 
 .left-contents {
-  height: 300px;
+  height: 350px;
   width: 210px;
   padding: 20px;
   background-color: aliceblue;
@@ -55,7 +55,7 @@
 }
 
 .right-contents {
-  height: 300px;
+  height: 350px;
   width: 250px;
   padding: 20px;
   background-color: antiquewhite;
@@ -74,4 +74,9 @@
   background-color: white;
   border-color: black;
   font-size: 30px;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
 }
