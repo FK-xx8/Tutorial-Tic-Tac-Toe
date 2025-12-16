@@ -40,18 +40,37 @@
   }
 }
 
-.right-contents {
-  margin-left: 20px; 
-  margin-top: 30px;
+.left-contents {
+  height: 300px;
+  width: 210px;
+  padding: 20px;
+  background-color: aliceblue;
 }
 
+.logs {
+  font-size: larger;
+  font-weight: bold;
+  margin: 0px;
+  padding-bottom: 10px;
+}
+
+.right-contents {
+  height: 300px;
+  width: 250px;
+  padding: 20px;
+  background-color: antiquewhite;
+}
+
+/* gridで綺麗に並べられる！ */
 .game-ground {
   margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(3,70px);
 }
 
 .game-masu {
-  height: 50px;
-  width: 50px;
+  height: 70px;
+  width: 70px;
   background-color: white;
   border-color: black;
   font-size: 30px;

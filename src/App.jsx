@@ -3,38 +3,38 @@ import { useState } from 'react';
 import BoardElement from './BoardElement';
 
 function App() {
-
-  const [game, setGame] = useState("　");
+  // マスごとの状態の管理をする
+  const [boards, setBoard] = useState(["1","2","3","4","5","6","7","8","9"]);
+  // ターンの管理をする
   const [nowTurn, setnowTurn] = useState(1);
-    const handleClickGame = () => {
-      setnowTurn(nowTurn + 1);
-      if (nowTurn % 2 === 1) {
-        setGame("X");
-      } else {
-        setGame("O");
-      }
-    };
+
+  const handleClickMasu = (index) => {
+    setBoard(prev => {
+      const spreadBoard = [...prev];
+      spreadBoard[index] = nowTurn % 2 === 1 ? "X" : "O";
+      return spreadBoard;
+    });
+      setnowTurn(turn => turn + 1);
+  };
 
   return (
     <div className="App">
-      <div class="left-contents">
+      <div className="left-contents">
         <a>Next player: </a>
         <p>now turn count is {nowTurn}</p>
-        <div class="game-ground">
-          <BoardElement boardNumber='0'/>
-          <BoardElement boardNumber="1"/>
-          <BoardElement boardNumber="2"/>
-          <br/>
-          <BoardElement boardNumber="3"/>
-          <BoardElement boardNumber="4"/>
-          <BoardElement boardNumber="5"/>
-          <br/>
-          <BoardElement boardNumber="6"/>
-          <BoardElement boardNumber="7"/>
-          <BoardElement boardNumber="8"/>
+        <div className="game-ground">
+          {/* ここで繰り返し処理 */}
+            {boards.map((board, index) => (
+                <BoardElement
+                  key={index}
+                  onClick={() => handleClickMasu(index)}
+                  value={board} />
+            ))}
         </div>
       </div>
-      <div class="right-contents">
+      
+      <div className="right-contents">
+        <p className="logs">LOGS</p>
         <a>1. </a><button>Go to game start</button>
       </div>
     </div>
