@@ -4,7 +4,7 @@ import BoardElement from './BoardElement';
 
 function App() {
   // マスごとの状態の管理をする
-  const [boards, setBoard] = useState(["1","2","3","4","5","6","7","8","9"]);
+  const [boards, setBoard] = useState(["","","","","","","","",""]);
   // ターンの管理をする
   const [nowTurn, setnowTurn] = useState(0);
   // エラー文の管理をする
@@ -12,37 +12,44 @@ function App() {
   // どちらかが勝利した、あるいは引き分けかの管理をする
   const [gameState, setGameState] = useState(null); 
 
-  // 勝利条件を設定する
-  const checkGameState = () => {
-    // const victoryConditions = [
-    //   [1,2,3],
-    //   [4,5,6],
-    //   [7,8,9],
-    //   [1,4,7],
-    //   [2,5,8],
-    //   [3,6,9],
-    //   [1,5,9],
-    //   [3,5,7]
-    // ];
-    // note: victoryConditions[index]のmapかな？
-    // 勝利条件(victoryConditions)と同じindexが全て同じであるかどうか確かめる
-    // どちらが勝利したかをgameStateに入れる
+  // 勝利状態の定義
+  const victoryConditions = [
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
+    [0,4,8],
+    [2,4,6]
+  ];
+    
+  let winner = null;
+
+  // どちらかが勝利していれば勝者を返す
+  const checkGameState = (a,b,c) => {
+    if (boards[a] == "X" && boards[b] == "X" && boards[c] == "X") {
+      return winner = "X";
+    } else if (boards[a] == "O" && boards[b] == "O" && boards[c] == "O") {
+      return winner = "O";
+    }
+    return null;
   }
 
   // useEffectで、同期後の結果を見る
   // 勝利条件に合致した場合、ゲームを終了する
   useEffect(() => {
-    if (boards[0] == "X" && boards[1] == "X" && boards[2] == "X") {
-      setGameState("X");
-      console.log("ゲームの状態が変わりました");
+    if (winner) {
+      setGameState(winner);
+      console.log("勝者あり");
     }
   }, [boards]);
 
   // 9ターン経過しても勝者がいない場合＝引き分けである
   useEffect(() => {
-    if (nowTurn === 9) {
+    if (nowTurn === 9 && !winner) {
       setGameState("draw");
-      console.log("ゲームの状態が変わりました");
+      console.log("引き分け");
     }
   },[nowTurn])
 
@@ -74,7 +81,10 @@ function App() {
     setError("");
   };
 
-
+  // ここで勝利条件に合致しているかどうかを判定する
+  for (const condition of victoryConditions) {
+      checkGameState(condition[0],condition[1],condition[2]);
+    }
 
   // 次のプレイヤーが誰かを管理する
   const nextPlayer = nowTurn % 2 === 1 ? "X" : "O";
@@ -84,7 +94,7 @@ function App() {
       <div className="left-contents">
         <a>Next player: {nextPlayer}</a>
         <p>now turn count: {nowTurn}</p>
-        <p>winner: {gameState}</p>
+        <a>winner: </a><a className="gameState">{gameState}</a>
         <div className="game-ground">
           {/* ここで繰り返し処理 */}
             {boards.map((board, index) => (

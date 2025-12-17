@@ -79,3 +79,7 @@
   color: red;
   font-weight: bold;
 }
+
+.gameState {
+  font-family: bold;
+}
